@@ -1,5 +1,8 @@
-package app.enitity;
+package com.smile.monkeyapi.enitity;
 
+/**
+ * @author kris
+ */
 public class ResponseResult<T> {
 
     private final static Integer SUCCESS = 1;

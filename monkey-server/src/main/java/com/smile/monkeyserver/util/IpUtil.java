@@ -1,4 +1,4 @@
-package app.util;
+package com.smile.monkeyserver.util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;

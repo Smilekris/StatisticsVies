@@ -12,3 +12,8 @@ spring:
         max-wait: 1
         max-idle: 10
         min-idle: 10
+  datasource:
+    username: root
+    password: smartcjw
+    url: jdbc:mysql://118.190.38.37:3306/record?useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.jdbc.Driver

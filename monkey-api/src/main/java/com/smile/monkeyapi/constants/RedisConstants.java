@@ -1,4 +1,4 @@
-package app.constants;
+package com.smile.monkeyapi.constants;
 
 public interface RedisConstants {
 

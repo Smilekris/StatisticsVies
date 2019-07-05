@@ -1,4 +1,4 @@
-package app.listener;
+package com.smile.monkeyserver.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 
 /**
- * @author yamei
+ * @author kris
  *
  */
 
