@@ -17,3 +17,8 @@ spring:
     password: smartcjw
     url: jdbc:mysql://118.190.38.37:3306/record?useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.jdbc.Driver
+  rabbitmq:
+    host: 118.190.144.123
+    port: 5672
+    username: guest
+    password: guest
