@@ -19,6 +19,6 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
     host: 118.190.144.123
-    port: 5672
+    port: 8088
     username: guest
     password: guest

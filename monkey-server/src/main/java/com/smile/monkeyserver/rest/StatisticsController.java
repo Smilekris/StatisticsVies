@@ -2,6 +2,7 @@ package com.smile.monkeyserver.rest;
 
 import com.smile.monkeyapi.constants.RedisConstants;
 import com.smile.monkeyapi.enitity.ResponseResult;
+import com.smile.monkeyserver.amqp.RabbitProducer;
 import com.smile.monkeyserver.service.VistorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +21,8 @@ public class StatisticsController {
     private RedisTemplate redisTemplate;
     @Autowired
     private VistorService vistorService;
+    @Autowired
+    private RabbitProducer rabbitProducer;
 
     @RequestMapping("/surf")
     public ResponseResult add(HttpServletRequest request){
@@ -40,5 +43,11 @@ public class StatisticsController {
         long sum = vistorService.vists();
         String result = "浏览量共"+sum+"人次";
         return ResponseResult.ResultHelper.successInstance().setMsg("ok").setResult(result);
+    }
+
+    @RequestMapping("/test/mq")
+    public ResponseResult testMQ(HttpServletRequest request){
+        rabbitProducer.stringSend();
+        return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
 }

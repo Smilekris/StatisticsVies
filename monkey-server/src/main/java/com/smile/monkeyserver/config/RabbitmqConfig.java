@@ -15,7 +15,7 @@ public class RabbitmqConfig {
     /**
      * 定义队列名
      */
-    private final static String STATISTIS_QUEUE = "LINGTANGCUN_AFFARIR_ONE";
+    public final static String STATISTIS_QUEUE = "LINGTANGCUN_AFFARIR_ONE";
 
 
     /**
@@ -23,7 +23,7 @@ public class RabbitmqConfig {
      * @return
      */
     @Bean
-    public Queue string() {
+    public Queue statistsQueue() {
         return new Queue(STATISTIS_QUEUE);
     }
 }
