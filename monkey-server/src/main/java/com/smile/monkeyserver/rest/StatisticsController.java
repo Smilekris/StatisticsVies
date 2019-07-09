@@ -41,7 +41,7 @@ public class StatisticsController {
     @RequestMapping("/sum")
     public ResponseResult sum(HttpServletRequest request){
         long sum = vistorService.vists();
-        String result = "浏览量共"+sum+"人次";
+        String result = "共"+sum+"人次浏览";
         return ResponseResult.ResultHelper.successInstance().setMsg("ok").setResult(result);
     }
 

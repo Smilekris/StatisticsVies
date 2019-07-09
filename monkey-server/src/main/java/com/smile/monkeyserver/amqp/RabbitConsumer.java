@@ -7,6 +7,7 @@ import com.smile.monkeyserver.service.VistorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-@RabbitListener(queues = RabbitmqConfig.STATISTIS_QUEUE)
 public class RabbitConsumer {
     public final static Logger LOG = LoggerFactory.getLogger(RabbitConsumer.class);
     @Autowired
@@ -28,10 +28,10 @@ public class RabbitConsumer {
      * 消息消费
      * @RabbitHandler 代表此方法为接受到消息后的处理方法
      */
-    @RabbitHandler
-    public void recieved(Object jsonObject) {
-            LOG.info("[RabbitConsumer] recieved message:" + jsonObject.toString()+"deal time"+dealWithTime());
-            JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(jsonObject));
+    @RabbitListener(queues = RabbitmqConfig.STATISTIS_QUEUE,containerFactory = "rabbitListenerContainerFactory")
+    public void recieved(JSONObject message) {
+            LOG.info("[RabbitConsumer] recieved message:" + message+"deal time"+dealWithTime());
+            JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(message));
             if("db".equals(json.get("type"))){
                 LOG.info("begin deal with db");
                 InterviewDTO interviewDTO = new InterviewDTO();
