@@ -53,10 +53,7 @@ public class HttpInterfaceFilter implements Filter {
             //接口访问则redis添加访问记录
             redisTemplate.opsForValue().set(ip,1,1, TimeUnit.MINUTES);
             if(!hasIp){
-                InterviewDTO interviewDTO = new InterviewDTO();
-                interviewDTO.setIp(ip);
-                interviewDTO.setLoadTime((new Date()).getTime());
-                vistorService.insert(interviewDTO);
+                vistorService.sendMQTask(ip,(new Date()).getTime());
             }else{
             }
         }

@@ -1,6 +1,7 @@
 package com.smile.monkeyserver.service.Impl;
 
 import com.smile.monkeyapi.enitity.InterviewDTO;
+import com.smile.monkeyserver.amqp.RabbitProducer;
 import com.smile.monkeyserver.mapper.RecordMapper;
 import com.smile.monkeyserver.service.VistorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class VistorServiceImpl implements VistorService {
 
     @Autowired
     private RecordMapper recordMapper;
+    @Autowired
+    private RabbitProducer rabbitProducer;
 
     @Override
     public long vists() {
@@ -27,5 +30,10 @@ public class VistorServiceImpl implements VistorService {
     @Override
     public int insert(InterviewDTO interviewDTO) {
         return recordMapper.addRecord(interviewDTO);
+    }
+
+    @Override
+    public void sendMQTask(String ip, Long date) {
+        rabbitProducer.sendMqTask(ip,date);
     }
 }
