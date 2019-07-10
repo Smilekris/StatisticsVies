@@ -50,4 +50,10 @@ public class StatisticsController {
         rabbitProducer.stringSend();
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
+
+    @RequestMapping("/test/time")
+    public ResponseResult testTime(HttpServletRequest request){
+        vistorService.test();
+        return ResponseResult.ResultHelper.successInstance().setMsg("ok");
+    }
 }

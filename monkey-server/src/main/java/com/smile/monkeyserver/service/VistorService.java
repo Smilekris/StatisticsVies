@@ -9,4 +9,6 @@ public interface VistorService {
     public int insert(InterviewDTO interviewDTO);
 
     public void sendMQTask(String ip,Long date);
+
+    public int test();
 }

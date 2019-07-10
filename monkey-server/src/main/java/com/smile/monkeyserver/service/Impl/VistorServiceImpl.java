@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @ClassName VistorServiceImpl
  * @Author yamei
@@ -35,5 +37,10 @@ public class VistorServiceImpl implements VistorService {
     @Override
     public void sendMQTask(String ip, Long date) {
         rabbitProducer.sendMqTask(ip,date);
+    }
+
+    @Override
+    public int test(){
+        return recordMapper.addtestRecord(new Date());
     }
 }
