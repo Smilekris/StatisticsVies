@@ -21,6 +21,7 @@ public class RabbitmqConfig {
      */
     public final static String STATISTIS_QUEUE = "LINGTANGCUN_AFFARIR_ONE";
 
+    public final static String TEST_BLOCK_QUEUE = "TEST_CJW";
 
     /**
      * 定义string队列
@@ -29,6 +30,11 @@ public class RabbitmqConfig {
     @Bean
     public Queue statistsQueue() {
         return new Queue(STATISTIS_QUEUE);
+    }
+
+    @Bean
+    public Queue testQueue() {
+        return new Queue(TEST_BLOCK_QUEUE);
     }
 
     @Bean

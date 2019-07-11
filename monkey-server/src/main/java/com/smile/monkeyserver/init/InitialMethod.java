@@ -1,0 +1,38 @@
+package com.smile.monkeyserver.init;
+
+import com.smile.monkeyserver.amqp.RabbitProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @ClassName InitialMethod
+ * @Author yamei
+ * @Date 2019/7/11
+ **/
+//@Component
+public class InitialMethod implements CommandLineRunner {
+    public final static Logger LOG = LoggerFactory.getLogger(InitialMethod.class);
+
+    @Autowired
+    private RabbitProducer rabbitProducer;
+
+    private final static Integer FORTIME = 500;
+
+    @Override
+    public void run(String... args) throws Exception {
+        ExecutorService executorService = new ThreadPoolExecutor(2,8,2, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(1000));
+        for(int i= 0;i<FORTIME;i++){
+            LOG.info("发送mq-》第"+i+"次");
+            executorService.execute(()->{rabbitProducer.sendTestCjw();});
+        }
+        executorService.shutdown();
+    }
+}

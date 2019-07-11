@@ -29,4 +29,11 @@ public class RabbitProducer {
         jsonObject.put("date",date);
         this.rabbitTemplate.convertAndSend(RabbitmqConfig.STATISTIS_QUEUE,jsonObject);
     }
+
+    public void sendTestCjw(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("test","ccc");
+        this.rabbitTemplate.convertAndSend(RabbitmqConfig.TEST_BLOCK_QUEUE,jsonObject);
+    }
+
 }

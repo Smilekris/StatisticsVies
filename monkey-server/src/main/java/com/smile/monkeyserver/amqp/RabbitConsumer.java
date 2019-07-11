@@ -47,4 +47,15 @@ public class RabbitConsumer {
         String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
         return dateString;
     }
+
+
+    @RabbitListener(queues = RabbitmqConfig.TEST_BLOCK_QUEUE,containerFactory = "rabbitListenerContainerFactory")
+    public void proceeTestCjw(JSONObject message) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        LOG.info("[RabbitConsumer] recieved message:" + message+"deal time"+dealWithTime());
+    }
 }
