@@ -1,5 +1,6 @@
 package com.smile.monkeyserver.init;
 
+import com.smile.monkeyserver.amqp.RabbitDirectProdicer;
 import com.smile.monkeyserver.amqp.RabbitProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,21 +18,30 @@ import java.util.concurrent.TimeUnit;
  * @Author yamei
  * @Date 2019/7/11
  **/
-//@Component
+@Component
 public class InitialMethod implements CommandLineRunner {
     public final static Logger LOG = LoggerFactory.getLogger(InitialMethod.class);
 
     @Autowired
     private RabbitProducer rabbitProducer;
+    @Autowired
+    private RabbitDirectProdicer directProdicer;
 
-    private final static Integer FORTIME = 500;
+    private final static Integer FORTIME = 6;
 
     @Override
     public void run(String... args) throws Exception {
         ExecutorService executorService = new ThreadPoolExecutor(2,8,2, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(1000));
         for(int i= 0;i<FORTIME;i++){
             LOG.info("发送mq-》第"+i+"次");
-            executorService.execute(()->{rabbitProducer.sendTestCjw();});
+//            executorService.execute(()->{rabbitProducer.sendTestCjw();});
+            if(i%3 ==0){
+                executorService.execute(()->directProdicer.sendTestA());
+            }else if(i%3 ==1){
+                executorService.execute(()->directProdicer.sendTestB());
+            }else if(i%3 ==2){
+                executorService.execute(()->directProdicer.sendTestC());
+            }
         }
         executorService.shutdown();
     }
