@@ -10,9 +10,22 @@ import java.util.Date;
  **/
 public class DateUtil {
 
+    private static final String DATEREG = "yyyy-MM-dd HH:mm:ss";
+
+    public static SimpleDateFormat getTimeByThreadLocal(){
+        ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>(){
+            @Override
+            protected SimpleDateFormat initialValue() {
+                return new SimpleDateFormat(DATEREG);
+            }
+        };
+        SimpleDateFormat simpleDateFormat = threadLocal.get();
+        return simpleDateFormat;
+    }
+
     public static String getCurrentTimeStr(){
         Date date = new Date();
-        String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+        String dateString = getTimeByThreadLocal().format(date);
         return dateString;
     }
 }
