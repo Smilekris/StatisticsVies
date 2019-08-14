@@ -30,7 +30,9 @@ public class DistributedRedisLock {
     /**
      * 最大等待时间，防止线程饥饿
      */
-    private int maxAwaitTimeSeconds=10;
+    private int maxAwaitTimeSeconds = 10;
+
+    private static final int DEFAULT_WAIT_LOCK_TIME = 1000;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -62,29 +64,38 @@ public class DistributedRedisLock {
 
     /**
      * 对于用户而言，发出请求不应该被丢弃，因此锁失败应该后面继续尝试
-     * @param key rediskey
+     *
+     * @param key   rediskey
      * @param value 值
      * @return 是否锁成功
      */
     public boolean lock(String key, String value) {
         int timeOutSeconds = getMaxAwaitTimeSeconds();
-        if(timeOutSeconds > 0){
+        if (timeOutSeconds > 0) {
             //redis的操作都是原子操作，對於同一个key来说，同一时间，只有一个能执行成功
             Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value, 30, TimeUnit.SECONDS);
-            if(aBoolean){
+            if (aBoolean) {
                 this.setRedisValue(value);
-                LOGGER.info("First time to execute program success, time is {}",DateUtil.getCurrentTimeStr());
+                LOGGER.info("First time to execute program success, time is {}", DateUtil.getCurrentTimeStr());
+                return true;
+            }
+            timeOutSeconds -= DEFAULT_WAIT_LOCK_TIME/1000;
+            try {
+                LOGGER.info("获取锁失败，睡眠一秒，等待{}下次抢锁，时间{}",value,DateUtil.getCurrentTimeStr());
+                Thread.sleep(DEFAULT_WAIT_LOCK_TIME);
+            } catch (Exception e) {
+                LOGGER.error("Distribute lock fail ", e);
             }
         }
-        return true;
+        return false;
     }
 
 
-    public boolean unlock(){
+    public boolean unlock() {
         Object o = redisTemplate.opsForValue().get(this.getRedisKey());
-        if(o instanceof String){
+        if (o instanceof String) {
             String value = (String) o;
-            if (this.getRedisValue().equals(value)){
+            if (this.getRedisValue().equals(value)) {
                 redisTemplate.delete(this.getRedisKey());
                 return true;
             }

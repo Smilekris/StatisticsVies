@@ -32,17 +32,17 @@ public class InitialMethod implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         ExecutorService executorService = new ThreadPoolExecutor(2,8,2, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(1000));
-        for(int i= 0;i<FORTIME;i++){
-            LOG.info("发送mq-》第"+i+"次");
-//            executorService.execute(()->{rabbitProducer.sendTestCjw();});
-            if(i%3 ==0){
-                executorService.execute(()->directProdicer.sendTestA());
-            }else if(i%3 ==1){
-                executorService.execute(()->directProdicer.sendTestB());
-            }else if(i%3 ==2){
-                executorService.execute(()->directProdicer.sendTestC());
-            }
-        }
+//        for(int i= 0;i<FORTIME;i++){
+//            LOG.info("发送mq-》第"+i+"次");
+////            executorService.execute(()->{rabbitProducer.sendTestCjw();});
+//            if(i%3 ==0){
+//                executorService.execute(()->directProdicer.sendTestA());
+//            }else if(i%3 ==1){
+//                executorService.execute(()->directProdicer.sendTestB());
+//            }else if(i%3 ==2){
+//                executorService.execute(()->directProdicer.sendTestC());
+//            }
+//        }
         executorService.shutdown();
     }
 }
