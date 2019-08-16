@@ -4,7 +4,11 @@ import com.smile.monkeyapi.constants.RedisConstants;
 import com.smile.monkeyapi.enitity.ResponseResult;
 import com.smile.monkeyserver.amqp.RabbitProducer;
 import com.smile.monkeyserver.exception.MonkeyException;
+import com.smile.monkeyserver.service.MockAccluateService;
 import com.smile.monkeyserver.service.VistorService;
+import com.smile.monkeyserver.util.DistributedRedisLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
@@ -19,12 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/statistics")
 public class StatisticsController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsController.class);
+
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private VistorService vistorService;
     @Autowired
     private RabbitProducer rabbitProducer;
+    @Autowired
+    private MockAccluateService mockAccluateService;
 
     @RequestMapping("/surf")
     public ResponseResult add(HttpServletRequest request) {
@@ -64,6 +72,14 @@ public class StatisticsController {
         String testuser = (String) redisTemplate.opsForValue().get("testuser");
         if (!StringUtils.isEmpty(testuser)) {
             throw new MonkeyException("用户已存在");
+        }
+        DistributedRedisLock lock = new DistributedRedisLock();
+        try{
+            lock.lock("test","cjw");
+            mockAccluateService.deductMoney(1,10);
+            lock.unlock();
+        }catch(MonkeyException e){
+            LOGGER.error("test distribute lock ",e);
         }
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }

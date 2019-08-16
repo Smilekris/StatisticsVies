@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @Author yamei
  * @Date 2019/8/14
  **/
+@Service
 public class MockAccluateServiceImpl implements MockAccluateService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MockAccluateServiceImpl.class);
     @Autowired
@@ -36,8 +38,8 @@ public class MockAccluateServiceImpl implements MockAccluateService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deductMoney(Integer userId, Integer amount) {
-        redisTemplate.opsForValue().set("usertest","00",1, TimeUnit.MINUTES);
         decreaseAmount(userId,amount);
+        redisTemplate.opsForValue().set("usertest","00",1, TimeUnit.MINUTES);
     }
 
 }

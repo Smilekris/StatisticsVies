@@ -1,5 +1,6 @@
 package com.smile.monkeyserver.util;
 
+import com.smile.monkeyserver.exception.MonkeyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,9 +86,10 @@ public class DistributedRedisLock {
                 Thread.sleep(DEFAULT_WAIT_LOCK_TIME);
             } catch (Exception e) {
                 LOGGER.error("Distribute lock fail ", e);
+                throw new MonkeyException("获取锁失败");
             }
         }
-        return false;
+        throw new MonkeyException("获取锁失败");
     }
 
 
