@@ -70,4 +70,12 @@ public class ResponseResult<T> {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ResponseResult{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }

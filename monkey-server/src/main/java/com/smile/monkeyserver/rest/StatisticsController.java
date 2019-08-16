@@ -69,11 +69,11 @@ public class StatisticsController {
 
     @RequestMapping("/test/dis-lock")
     public ResponseResult testLock(HttpServletRequest request) {
-        String testuser = (String) redisTemplate.opsForValue().get("testuser");
+        String testuser = (String) redisTemplate.opsForValue().get("usertest");
         if (!StringUtils.isEmpty(testuser)) {
             throw new MonkeyException("用户已存在");
         }
-        DistributedRedisLock lock = new DistributedRedisLock();
+        DistributedRedisLock lock = new DistributedRedisLock(redisTemplate);
         try{
             lock.lock("test","cjw");
             mockAccluateService.deductMoney(1,10);

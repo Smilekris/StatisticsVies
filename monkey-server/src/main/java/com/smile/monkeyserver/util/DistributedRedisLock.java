@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @Author kris
  * @Date 2019/8/9
  **/
+@Component
 public class DistributedRedisLock {
     private static final Logger LOGGER = LoggerFactory.getLogger(DistributedRedisLock.class);
 
@@ -35,9 +37,11 @@ public class DistributedRedisLock {
 
     private static final int DEFAULT_WAIT_LOCK_TIME = 1000;
 
-    @Autowired
     private RedisTemplate redisTemplate;
 
+    public DistributedRedisLock(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public int getMaxAwaitTimeSeconds() {
         return maxAwaitTimeSeconds;
@@ -76,6 +80,7 @@ public class DistributedRedisLock {
             //redis的操作都是原子操作，對於同一个key来说，同一时间，只有一个能执行成功
             Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(key, value, 30, TimeUnit.SECONDS);
             if (aBoolean) {
+                this.setRedisKey(key);
                 this.setRedisValue(value);
                 LOGGER.info("First time to execute program success, time is {}", DateUtil.getCurrentTimeStr());
                 return true;
