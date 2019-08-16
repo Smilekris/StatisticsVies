@@ -9,8 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -35,7 +37,9 @@ public  class BaseRest {
 
     private RequestEntity getEntity(Map<String,String> header, String url, Object body) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.setAll(header);
+        if(!CollectionUtils.isEmpty(header)){
+            headers.setAll(header);
+        }
         return new RequestEntity(JSON.toJSONString(body),headers, HttpMethod.GET,URI.create(url));
     }
 
@@ -45,5 +49,9 @@ public  class BaseRest {
 
     protected <T> ResponseEntity<T> postForResponseEntity(String url, Object body, ParameterizedTypeReference<T> parameterizedTypeReference) {
         return restTemplate.exchange(postEntity(url,body), parameterizedTypeReference);
+    }
+
+    protected <T> ResponseEntity<T> getForResponseEntity(String url,Object body,Map<String,String> header,Class<T> responseType){
+        return restTemplate.exchange(getEntity(header,url,body),responseType);
     }
 }
