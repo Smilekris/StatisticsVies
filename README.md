@@ -17,10 +17,10 @@ git push -u origin master
 
 近期实验：
 
-1.redis做分布式锁
+1.redis做分布式锁 √
 
-2.拦截器
+2.拦截器 √
 
-3.唯品会 saturn 定时器
+3.唯品会 saturn 定时器 ing
 
-4.配合zookeeper构建分布式项目
+4.配合zookeeper构建分布式项目 //TODO
