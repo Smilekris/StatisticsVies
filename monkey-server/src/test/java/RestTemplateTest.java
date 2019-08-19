@@ -28,7 +28,7 @@ public class RestTemplateTest {
 
     @Test
     public void invokeGet() {
-        ResponseResult responseResult = restService.monkeyGet("http://localhost:9719/statistics//surf", null, ResponseResult.class);
+        ResponseResult responseResult = restService.monkeyGet("http://localhost:9719/statistics/surf", null, ResponseResult.class);
         System.out.println(responseResult);
     }
 
