@@ -13,7 +13,7 @@ git remote add origin https://github.com/Smilekris/StatisticsVies.git
 git push -u origin master
 
 
-暂时本地以nginx来做负载均衡,逐渐往spring cloud靠拢,R
+暂时本地以nginx来做负载均衡,逐渐往spring cloud靠拢-R
 
 近期实验：
 
