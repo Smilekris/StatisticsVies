@@ -90,7 +90,7 @@ public class DistributedRedisLock {
                 LOGGER.info("获取锁失败，睡眠一秒，等待{}下次抢锁，时间{}",value,DateUtil.getCurrentTimeStr());
                 Thread.sleep(DEFAULT_WAIT_LOCK_TIME);
             } catch (Exception e) {
-                LOGGER.error("Distribute lock fail ", e);
+                LOGGER.info("Distribute lock fail ", e);
                 throw new MonkeyException("获取锁失败");
             }
         }
