@@ -83,4 +83,9 @@ public class StatisticsController {
         }
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
+
+    @RequestMapping("/test/hello")
+    public String testHello(HttpServletRequest request) {
+        return "for test";
+    }
 }

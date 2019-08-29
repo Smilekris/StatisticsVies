@@ -23,6 +23,10 @@ git push -u origin master
 
 3.excel合并√
 
-4.唯品会 saturn 定时器 ing
+4.幂等接口
 
-5.配合zookeeper构建分布式项目 //TODO
+5.elastic job
+
+6.唯品会 saturn 定时器 ing
+
+7.配合zookeeper构建分布式项目 //TODO
