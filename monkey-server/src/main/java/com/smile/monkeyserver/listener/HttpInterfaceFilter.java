@@ -26,7 +26,7 @@ public class HttpInterfaceFilter implements Filter {
 
     public final static Logger LOG = LoggerFactory.getLogger(HttpInterfaceFilter.class);
 
-    public final static String STATICSURL = "/statistics/surf";
+    public final static String STATICSURL = "/monkey/statistics/surf";
 
     @Autowired
     private RedisTemplate redisTemplate;

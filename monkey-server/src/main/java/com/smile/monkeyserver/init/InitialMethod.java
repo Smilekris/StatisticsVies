@@ -35,7 +35,7 @@ public class InitialMethod implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        redisTemplate.delete(RedisConstants.ACTIVE_NUM);
+        redisTemplate.opsForValue().set(RedisConstants.ACTIVE_NUM,0);
         ExecutorService executorService = new ThreadPoolExecutor(2,8,2, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(1000));
 //        for(int i= 0;i<FORTIME;i++){
 //            LOG.info("发送mq-》第"+i+"次");

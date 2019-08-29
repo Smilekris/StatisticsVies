@@ -26,13 +26,13 @@ public class RestTemplateTest {
     private RestService restService;
 
 
-    @Test
+//    @Test
     public void invokeGet() {
         ResponseResult responseResult = restService.monkeyGet("http://localhost:9719/statistics/surf", null, ResponseResult.class);
         System.out.println(responseResult);
     }
 
-    @Test
+//    @Test
     public void mockMultiInvokeGet() {
         ExecutorService executorService = new ThreadPoolExecutor(500, 1000, 2, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(5000));
         for (int i = 0; i < FORTIME; i++) {
@@ -46,7 +46,7 @@ public class RestTemplateTest {
 
     @Test
     public void mergeExcel(){
-        
+
     }
 }
 
