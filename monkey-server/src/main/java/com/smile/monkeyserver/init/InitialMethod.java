@@ -1,11 +1,13 @@
 package com.smile.monkeyserver.init;
 
+import com.smile.monkeyapi.constants.RedisConstants;
 import com.smile.monkeyserver.amqp.RabbitDirectProdicer;
 import com.smile.monkeyserver.amqp.RabbitProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
@@ -28,9 +30,12 @@ public class InitialMethod implements CommandLineRunner {
     private RabbitDirectProdicer directProdicer;
 
     private final static Integer FORTIME = 6;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public void run(String... args) throws Exception {
+        redisTemplate.delete(RedisConstants.ACTIVE_NUM);
         ExecutorService executorService = new ThreadPoolExecutor(2,8,2, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>(1000));
 //        for(int i= 0;i<FORTIME;i++){
 //            LOG.info("发送mq-》第"+i+"次");

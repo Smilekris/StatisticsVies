@@ -1,5 +1,6 @@
 package com.smile.monkeyserver.listener;
 
+import com.smile.monkeyapi.constants.RedisConstants;
 import com.smile.monkeyapi.enitity.InterviewDTO;
 import com.smile.monkeyserver.service.VistorService;
 import org.slf4j.Logger;
@@ -44,19 +45,32 @@ public class HttpInterfaceFilter implements Filter {
         HttpSession session = request.getSession(true);
         LOG.info("Filter session ->"+session);
         LOG.info("filter deal with url :"+request.getRequestURI());
-        session.setMaxInactiveInterval(15);
         LOG.info("filter initialLized");
         if(STATICSURL.equals(request.getRequestURI())){
             String ip = IpUtil.getIpAddr(request);
             LOG.info("ip->"+ip);
-            Boolean hasIp = redisTemplate.hasKey(ip);
-            //接口访问则redis添加访问记录
-            redisTemplate.opsForValue().set(ip,1,1, TimeUnit.MINUTES);
-            if(!hasIp){
+            Boolean ipRedis = redisTemplate.opsForValue().setIfAbsent(ip, 1, 1, TimeUnit.MINUTES);
+
+            //接口访问则redis添加访问记录,根据redis的原子操作，保证并发
+            if(ipRedis && null != ipRedis){
+                Boolean ac_b = redisTemplate.hasKey(RedisConstants.ACTIVE_NUM);
+                if(ac_b){
+                    int activeNum = (int)redisTemplate.opsForValue().get(RedisConstants.ACTIVE_NUM);
+                    activeNum = increase(activeNum);
+                    redisTemplate.opsForValue().set(RedisConstants.ACTIVE_NUM,activeNum);
+                }else{
+                    redisTemplate.opsForValue().set(RedisConstants.ACTIVE_NUM,1);
+                }
                 vistorService.sendMQTask(ip,(new Date()).getTime());
             }else{
             }
         }
         filterChain.doFilter(request,reponse);
     }
+
+    public int increase(int activeNum){
+        return ++activeNum;
+    }
+
+
 }

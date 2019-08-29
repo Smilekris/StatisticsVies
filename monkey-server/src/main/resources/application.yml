@@ -1,5 +1,7 @@
 server:
   port: 9719
+  servlet:
+    context-path: /monkey
 spring:
   redis:
     database: 0

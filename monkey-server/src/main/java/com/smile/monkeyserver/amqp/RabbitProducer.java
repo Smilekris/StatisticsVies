@@ -36,4 +36,9 @@ public class RabbitProducer {
         this.rabbitTemplate.convertAndSend(RabbitmqConfig.TEST_BLOCK_QUEUE,jsonObject);
     }
 
+    public void sendDecreaseActiveNum(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type","decrease");
+        this.rabbitTemplate.convertAndSend(RabbitmqConfig.ACTIVE_NUM_QUEUE,jsonObject);
+    }
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSessionListener;
 /**
  * @author kris
  */
-@WebListener
+//@WebListener
 public class MonitorHttpSessionListener implements HttpSessionListener {
 
     public final static Logger LOG = LoggerFactory.getLogger(MonitorHttpSessionListener.class);

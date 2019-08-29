@@ -25,7 +25,7 @@ public class RabbitmqConfig {
     public final static String TEST_DIRECT_QUEUE_A = "TEST_DIRECT_A";
     public final static String TEST_DIRECT_QUEUE_B = "TEST_DIRECT_B";
     public final static String TEST_DIRECT_QUEUE_C = "TEST_DIRECT_C";
-
+    public final static String ACTIVE_NUM_QUEUE = "ACTIVE_NUM";
 
 
     /**
@@ -40,6 +40,11 @@ public class RabbitmqConfig {
     @Bean
     public Queue testQueue() {
         return new Queue(TEST_BLOCK_QUEUE);
+    }
+
+    @Bean
+    public Queue activeNumQueue() {
+        return new Queue(ACTIVE_NUM_QUEUE);
     }
 
     @Bean
