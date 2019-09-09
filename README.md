@@ -30,3 +30,13 @@ git push -u origin master
 6.唯品会 saturn 定时器 ing
 
 7.配合zookeeper构建分布式项目 //TODO
+
+8.Ribbon
+
+9.JWT-Token 学习
+
+10.FORK/JOIN
+
+11.事务的原理与实践
+
+12.结合zookeeper构建分布式id
