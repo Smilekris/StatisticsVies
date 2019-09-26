@@ -11,6 +11,8 @@
     <modules>
         <module>monkey-server</module>
         <module>monkey-api</module>
+        <module>monkey-gateway</module>
+        <module>monkey-netty</module>
     </modules>
 
     <properties>
@@ -102,6 +104,11 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.15-beta2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.6.Final</version>
         </dependency>
     </dependencies>
 
