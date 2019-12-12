@@ -9,7 +9,8 @@ import com.smile.monkeyserver.service.MenuService;
 import com.smile.monkeyserver.service.MockAccluateService;
 import com.smile.monkeyserver.service.VistorService;
 import com.smile.monkeyserver.util.DistributedRedisLock;
-import org.joda.time.DateTime;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/statistics")
+@Api(tags = {"web统计信息"},value = "web统计信息")
 public class StatisticsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsController.class);
 
@@ -40,40 +42,42 @@ public class StatisticsController {
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping("/surf")
+    @GetMapping("/surf")
+    @ApiOperation(value = "统计正在观看人数", notes="统计正在观看人数")
     public ResponseResult add(HttpServletRequest request) {
         int surfingNum = (int) redisTemplate.opsForValue().get(RedisConstants.ACTIVE_NUM);
         String result = "当前共有" + surfingNum + "人正在看";
         return ResponseResult.ResultHelper.successInstance().setMsg("ok").setResult(result);
     }
 
-    @RequestMapping("/test")
+    @GetMapping("/test")
     public ResponseResult test(HttpServletRequest request) {
         int surfingNum = (int) redisTemplate.opsForValue().get(RedisConstants.ACTIVE_NUM);
         String result = "当前共有" + surfingNum + "人正在看";
         return ResponseResult.ResultHelper.successInstance().setMsg("ok").setResult(result);
     }
 
-    @RequestMapping("/sum")
+    @GetMapping("/sum")
+    @ApiOperation(value = "统计浏览次数", notes="统计浏览次数")
     public ResponseResult sum(HttpServletRequest request) {
         long sum = vistorService.vists();
         String result = "共" + sum + "人次浏览";
         return ResponseResult.ResultHelper.successInstance().setMsg("ok").setResult(result);
     }
 
-    @RequestMapping("/test/mq")
+    @GetMapping("/test/mq")
     public ResponseResult testMQ(HttpServletRequest request) {
         rabbitProducer.stringSend();
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
 
-    @RequestMapping("/test/time")
+    @GetMapping("/test/time")
     public ResponseResult testTime(HttpServletRequest request) {
         vistorService.test();
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
 
-    @RequestMapping("/test/dis-lock")
+    @GetMapping("/test/dis-lock")
     public ResponseResult testLock(HttpServletRequest request) {
         String testuser = (String) redisTemplate.opsForValue().get("usertest");
         if (!StringUtils.isEmpty(testuser)) {
@@ -90,7 +94,7 @@ public class StatisticsController {
         return ResponseResult.ResultHelper.successInstance().setMsg("ok");
     }
 
-    @RequestMapping("/test/hello")
+    @GetMapping("/test/hello")
     public String testHello(HttpServletRequest request) {
         return "for test";
     }
