@@ -29,4 +29,7 @@ public class MonkeyAccountEnity {
     Integer age;
 
     String nickName;
+
+    String salt;
+
 }

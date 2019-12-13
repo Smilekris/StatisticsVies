@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.smile.monkeyserver.enity.MonkeyAccountEnity;
+import com.smile.monkeyserver.util.MonkeySSOGenerator;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,6 +14,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,10 +24,10 @@ import java.util.Set;
  * @Author kris
  * @Date 2019/12/11
  **/
+@Component
 public class MonkeyRealm extends AuthorizingRealm {
 
-    private static final Algorithm ALGORITHM= Algorithm.HMAC256("monkey");
-    private static final JWTVerifier JWT_VERIFIER= JWT.require(ALGORITHM).withIssuer("bigbro").build();
+
     /**
      * 授权
      * @param principalCollection
@@ -52,7 +54,7 @@ public class MonkeyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String monkeyToken = (String) token.getPrincipal();
-        DecodedJWT decodedJWT = JWT_VERIFIER.verify(monkeyToken);
+        DecodedJWT decodedJWT = MonkeySSOGenerator.getJwtVerifier().verify(monkeyToken);
 //        decodedJWT.getClaim()
         MonkeyAccountEnity account = new MonkeyAccountEnity();
         account.setAccount(decodedJWT.getClaim("account").as(String.class));
