@@ -13,6 +13,7 @@
         <module>monkey-api</module>
         <module>monkey-gateway</module>
         <module>monkey-netty</module>
+        <module>monkey-debugger</module>
     </modules>
 
     <properties>

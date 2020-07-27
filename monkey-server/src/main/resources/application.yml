@@ -1,7 +1,7 @@
 server:
   port: 9719
-  servlet:
-    context-path: /monkey
+servlet:
+  context-path: /monkey
 spring:
   redis:
     database: 0
@@ -16,8 +16,8 @@ spring:
         min-idle: 10
   datasource:
     username: root
-    password: smartcjw
-    url: jdbc:mysql://118.190.38.37:3306/record?useUnicode=true&characterEncoding=utf8
+    password: smartsmile
+    url: jdbc:mysql://118.190.63.96:3306/record?useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
     host: 114.55.95.37
