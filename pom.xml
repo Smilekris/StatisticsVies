@@ -14,6 +14,7 @@
         <module>monkey-gateway</module>
         <module>monkey-netty</module>
         <module>monkey-debugger</module>
+        <module>monkey-bean-processor</module>
     </modules>
 
     <properties>
