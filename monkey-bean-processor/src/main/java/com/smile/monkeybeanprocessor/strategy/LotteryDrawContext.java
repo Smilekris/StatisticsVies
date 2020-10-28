@@ -15,6 +15,7 @@ import java.util.Map;
 public class LotteryDrawContext {
     private final Map<String, Class<? extends LotteryDraw>> context ;
 
+
     protected LotteryDrawContext(Map<String, Class<? extends LotteryDraw>> context){
         this.context = context;
     }
